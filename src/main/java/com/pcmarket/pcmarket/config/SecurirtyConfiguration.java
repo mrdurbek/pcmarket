@@ -19,8 +19,9 @@ public class SecurirtyConfiguration extends WebSecurityConfigurerAdapter {
 		http
 				.csrf().disable()
 				.authorizeRequests()
-				.antMatchers(HttpMethod.DELETE , "/api/**").hasAnyRole("MANAGER" , "ADMIN")
-				.antMatchers(HttpMethod.GET , "/api/**").hasAnyRole("MANAGER" , "ADMIN" , "USER")
+				.antMatchers(HttpMethod.PUT , "/api/**").hasAnyRole("MODERATOR" , "ADMIN")
+				.antMatchers(HttpMethod.POST , "/api/**").hasAnyRole("MODERATOR" , "ADMIN")
+				.antMatchers(HttpMethod.GET , "/api/**").hasAnyRole("MODERATOR" , "ADMIN" , "OPERATOR")
 				.antMatchers("/api/**/**").hasRole("ADMIN")
 				.anyRequest()
 				.authenticated()
@@ -35,9 +36,9 @@ public class SecurirtyConfiguration extends WebSecurityConfigurerAdapter {
 				.inMemoryAuthentication()
 				.withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN")
 				.and()
-				.withUser("manager").password(passwordEncoder().encode("manager")).roles("MANAGER")
+				.withUser("manager").password(passwordEncoder().encode("moderator")).roles("MODERATOR")
 				.and()
-				.withUser("user").password(passwordEncoder().encode("user")).roles("USER");
+				.withUser("user").password(passwordEncoder().encode("operator")).roles("OPERATOR");
 	}
 	
 	@Bean
